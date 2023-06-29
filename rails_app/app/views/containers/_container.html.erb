@@ -1,0 +1,27 @@
+<div id="<%= dom_id container %>">
+  <%# 'running\n' %>
+  <% container_status = `docker inspect -f '{{.State.Status}}' #{container.container_name}` %>
+  <%# Remove the newline from the status, so it's just the word. %>
+  <% container_status = container_status.chomp %>
+  <p>
+    <strong>Name:</strong>
+    <%= container.name %>
+  </p>
+  <% if container_status == "running" %>
+    <%= link_to "Stop Container", docker_stop_path(container_id: container.id) %>
+  <% else %>
+    <%= link_to "Run Docker", docker_run_path(container_id: container.id) %>
+  <% end %>
+  <p>
+    <strong>Container name:</strong>
+    <%= container.container_name %>
+  </p>
+  <p>
+    <strong>Container Status:</strong>
+    <%= container_status %>
+  </p>
+  <p>
+    <strong>Port:</strong>
+    <%= container.port %>
+  </p>
+</div>
